@@ -15,10 +15,26 @@ class MainWindow(QMainWindow):
 
 
 class LogIn(QWidget):
-    def __init__(self):
+    def __init__(self, username):
         super(LogIn, self).__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+        self.user = username
+        self.password = self.get_password()
+        self.balance = self.get_balance()
+
+    def get_password(self):
+        shelf = shelve.open("logins")
+        password = shelf.get(self.user)
+        shelf.close()
+        return password
+
+    def get_balance(self):
+        shelf = shelve.open(f"./users/{self.user}")
+        balance = shelf.get("balance")
+        shelf.close()
+        return balance
+
 
 
 if __name__ == "__main__":
@@ -35,6 +51,8 @@ if __name__ == "__main__":
         shelf = shelve.open("logins")
         if username_edit.text() not in shelf.keys():
             shelf[username_edit.text()] = password_edit.text()
+            user = shelve.open(f"./users/{username_edit.text()}")
+            user["balance"] = 0
             login()
         else:
             username_edit.setText("username taken")
@@ -42,7 +60,7 @@ if __name__ == "__main__":
         shelf.close()
 
 
-    log_in_window = LogIn()
+    log_in_window = LogIn("sup")
     logout_button = log_in_window.ui.logout_button
 
     @Slot()
