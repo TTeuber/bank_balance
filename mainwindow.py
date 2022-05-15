@@ -13,6 +13,40 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.password_edit = self.ui.password_edit
+        self.username_edit = self.ui.username_edit
+        self.register_button = self.ui.register_button
+        self.login_button = self.ui.login_button
+        self.login_button.clicked.connect(self.login)
+        self.register_button.clicked.connect(self.register)
+
+    @Slot()
+    def register(self):
+        shelf = shelve.open("logins")
+        if self.username_edit.text() not in shelf.keys():
+            shelf[self.username_edit.text()] = self.password_edit.text()
+            user = shelve.open(f"./users/{self.username_edit.text()}")
+            user["balance"] = 0
+            self.login()
+        else:
+            self.username_edit.setText("username taken")
+            self.password_edit.setText("")
+        shelf.close()
+
+    @Slot()
+    def login(self):
+        global log_in_window
+        shelf = shelve.open('logins')
+        if (self.username_edit.text(), self.password_edit.text()) in shelf.items():
+            log_in_window = LogIn(self.username_edit.text())
+            window.close()
+            log_in_window.show()
+            self.password_edit.setText("")
+            self.username_edit.setText("")
+        else:
+            self.username_edit.setText("invalid username or password")
+            self.password_edit.setText("")
+        shelf.close()
 
 
 class LogIn(QWidget):
@@ -107,44 +141,8 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    password_edit = window.ui.password_edit
-    username_edit = window.ui.username_edit
-    register_button = window.ui.register_button
-    login_button = window.ui.login_button
     log_in_window = ''
 
-    @Slot()
-    def register():
-        shelf = shelve.open("logins")
-        if username_edit.text() not in shelf.keys():
-            shelf[username_edit.text()] = password_edit.text()
-            user = shelve.open(f"./users/{username_edit.text()}")
-            user["balance"] = 0
-            login()
-        else:
-            username_edit.setText("username taken")
-            password_edit.setText("")
-        shelf.close()
-
-
-    @Slot()
-    def login():
-        global log_in_window
-        shelf = shelve.open('logins')
-        if (username_edit.text(), password_edit.text()) in shelf.items():
-            log_in_window = LogIn(username_edit.text())
-            window.close()
-            log_in_window.show()
-            password_edit.setText("")
-            username_edit.setText("")
-        else:
-            username_edit.setText("invalid username or password")
-            password_edit.setText("")
-        shelf.close()
-
-
-    login_button.clicked.connect(login)
-    register_button.clicked.connect(register)
 
     def check_logins():
         shelf = shelve.open('logins')
