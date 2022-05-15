@@ -114,19 +114,19 @@ class Ui_Form(object):
 
         self.gridLayout_3.addWidget(self.label_4, 0, 0, 1, 3)
 
-        self.account_username_edit = QLabel(self.tab_2)
-        self.account_username_edit.setObjectName(u"account_username_edit")
+        self.account_username_label = QLabel(self.tab_2)
+        self.account_username_label.setObjectName(u"account_username_edit")
         font1 = QFont()
         font1.setPointSize(36)
-        self.account_username_edit.setFont(font1)
+        self.account_username_label.setFont(font1)
 
-        self.gridLayout_3.addWidget(self.account_username_edit, 1, 0, 1, 3)
+        self.gridLayout_3.addWidget(self.account_username_label, 1, 0, 1, 3)
 
-        self.account_password_edit = QLabel(self.tab_2)
-        self.account_password_edit.setObjectName(u"account_password_edit")
-        self.account_password_edit.setFont(font1)
+        self.account_password_label = QLabel(self.tab_2)
+        self.account_password_label.setObjectName(u"account_password_edit")
+        self.account_password_label.setFont(font1)
 
-        self.gridLayout_3.addWidget(self.account_password_edit, 2, 0, 1, 3)
+        self.gridLayout_3.addWidget(self.account_password_label, 2, 0, 1, 3)
 
         self.tab_widget.addTab(self.tab_2, "")
 
@@ -160,8 +160,8 @@ class Ui_Form(object):
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_1), QCoreApplication.translate("Form", u"Balance", None))
         self.change_password_button.setText(QCoreApplication.translate("Form", u"Change Password", None))
         self.label_4.setText(QCoreApplication.translate("Form", u"Account Info", None))
-        self.account_username_edit.setText(QCoreApplication.translate("Form", u"Username:", None))
-        self.account_password_edit.setText(QCoreApplication.translate("Form", u"Password:", None))
+        self.account_username_label.setText(QCoreApplication.translate("Form", u"Username:", None))
+        self.account_password_label.setText(QCoreApplication.translate("Form", u"Password:", None))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_2), QCoreApplication.translate("Form", u"Account", None))
         self.label.setText(QCoreApplication.translate("Form", u"Logged In", None))
     # retranslateUi
