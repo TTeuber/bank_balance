@@ -6,6 +6,7 @@ from logged_in import Ui_Form
 from PySide6.QtCore import Slot
 import shelve
 from os.path import exists
+from pathlib import Path
 
 
 class MainWindow(QMainWindow):
@@ -13,19 +14,22 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
         self.password_edit = self.ui.password_edit
         self.username_edit = self.ui.username_edit
+
         self.register_button = self.ui.register_button
+        self.register_button.clicked.connect(self.register)
+
         self.login_button = self.ui.login_button
         self.login_button.clicked.connect(self.login)
-        self.register_button.clicked.connect(self.register)
 
     @Slot()
     def register(self):
         shelf = shelve.open("logins")
         if self.username_edit.text() not in shelf.keys():
             shelf[self.username_edit.text()] = self.password_edit.text()
-            user = shelve.open(f"./users/{self.username_edit.text()}")
+            user = shelve.open(str(Path(f"./users/{self.username_edit.text()}")))
             user["balance"] = 0
             shelf.close()
             self.login()
@@ -55,38 +59,45 @@ class LogIn(QWidget):
         super(LogIn, self).__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
-        self.user = username
+
+        self.username = username
+        self.username_label = self.ui.account_username_label
+        self.username_label.setText(f"Username: {self.username}")
+
         self.password = self.get_password()
+        self.password_label = self.ui.account_password_label
+        self.password_label.setText(f"Password: {self.get_password()}")
+        self.password_change_button = self.ui.change_password_button
+        self.password_change_button.clicked.connect(self.change_password)
+
         self.create_db()
-        self.balance = self.get_balance()
+
         self.logout_button = self.ui.logout_button
+        self.logout_button.clicked.connect(self.confirm_logout)
+
+        self.balance = self.get_balance()
         self.balance_label = self.ui.balance_label
         self.balance_label.setText(f"${self.balance}")
         self.balance_edit = self.ui.balance_edit
-        self.logout_button.clicked.connect(self.confirm_logout)
+
         self.deposit_button = self.ui.deposit_button
         self.deposit_button.clicked.connect(self.deposit_balance)
+
         self.withdraw_button = self.ui.withdraw_button
         self.withdraw_button.clicked.connect(self.withdraw_balance)
-        self.username_label = self.ui.account_username_label
-        self.username_label.setText(f"Username: {self.user}")
-        self.password_label = self.ui.account_password_label
-        self.password_label.setText(f"Password: {self.get_password()}")
-        self.change_password_button = self.ui.change_password_button
-        self.change_password_button.clicked.connect(self.change_password)
 
     def create_db(self):
-        if not exists(f"./users/{self.user}.db"):
-            shelf = shelve.open(f"./users/{self.user}")
+        if not exists(str(Path(f"./users/{self.username}.db"))):
+            shelf = shelve.open(str(Path(f"./users/{self.username}")))
             shelf["balance"] = 0
             shelf.close()
             shelf = shelve.open("logins")
-            self.password_label.setText(f"Password: {shelf[self.user]}")
+            self.password_label.setText(f"Password: {shelf[self.username]}")
             shelf.close()
 
     def get_password(self):
         shelf = shelve.open("logins")
-        password = shelf.get(self.user)
+        password = shelf.get(self.username)
         shelf.close()
         return password
 
@@ -97,18 +108,18 @@ class LogIn(QWidget):
             self.password_label.setText(f"Password: {text}")
             self.password = text
             shelf = shelve.open("logins")
-            shelf[self.user] = text
+            shelf[self.username] = text
             shelf.close()
 
     def get_balance(self):
-        shelf = shelve.open(f"./users/{self.user}")
+        shelf = shelve.open(str(Path(f"./users/{self.username}")))
         balance = shelf.get("balance")
         shelf.close()
         return balance
 
     @Slot()
     def deposit_balance(self):
-        shelf = shelve.open(f"./users/{self.user}")
+        shelf = shelve.open(str(Path(f"./users/{self.username}")))
         balance = shelf["balance"]
         shelf["balance"] = int(str(balance)) + int(self.balance_edit.text())
         self.balance_label.setText(f"${shelf['balance']}")
@@ -116,7 +127,7 @@ class LogIn(QWidget):
 
     @Slot()
     def withdraw_balance(self):
-        shelf = shelve.open(f"./users/{self.user}")
+        shelf = shelve.open(str(Path(f"./users/{self.username}")))
         balance = shelf["balance"]
         shelf["balance"] = int(str(balance)) - int(self.balance_edit.text())
         self.balance_label.setText(f"${shelf['balance']}")
@@ -128,8 +139,8 @@ class LogIn(QWidget):
         msg.setWindowTitle("confirm log out")
         msg.setText("Confirm log out?")
         msg.setStandardButtons(QMessageBox.No | QMessageBox.Yes)
-        x = msg.exec()
-        if x == msg.Yes:
+        pop_up = msg.exec()
+        if pop_up == msg.Yes:
             self.logout()
 
     @Slot()
