@@ -27,11 +27,12 @@ class MainWindow(QMainWindow):
             shelf[self.username_edit.text()] = self.password_edit.text()
             user = shelve.open(f"./users/{self.username_edit.text()}")
             user["balance"] = 0
+            shelf.close()
             self.login()
         else:
             self.username_edit.setText("username taken")
             self.password_edit.setText("")
-        shelf.close()
+            shelf.close()
 
     @Slot()
     def login(self):
