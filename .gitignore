@@ -2,6 +2,5 @@
 *.db
 *.pyproject
 *.user
-*.ui
 *.pyc
 
