@@ -24,6 +24,16 @@ class Ui_Form(object):
         if not Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(494, 618)
+        Form.setStyleSheet(u"QWidget\n"
+"{\n"
+"	Background: #303030;\n"
+"	color: \"white\";\n"
+"}\n"
+"\n"
+"QPushButton\n"
+"{\n"
+"	Background: #444444;\n"
+"}")
         self.gridLayout = QGridLayout(Form)
         self.gridLayout.setObjectName(u"gridLayout")
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -42,6 +52,24 @@ class Ui_Form(object):
 
         self.tab_widget = QTabWidget(Form)
         self.tab_widget.setObjectName(u"tab_widget")
+        self.tab_widget.setStyleSheet(u"QWidget\n"
+"{\n"
+"	Background: #353535;\n"
+"}\n"
+"\n"
+"QPushButton\n"
+"{\n"
+"	Background: #555555;\n"
+"	border: \"black\";\n"
+"	border-width: 1px;\n"
+"	border-style: solid;\n"
+"    border-radius: 4px;\n"
+"}\n"
+"\n"
+"QLineEdit\n"
+"{\n"
+"	Background: #555555;\n"
+"}")
         self.tab_1 = QWidget()
         self.tab_1.setObjectName(u"tab_1")
         self.gridLayout_2 = QGridLayout(self.tab_1)
@@ -57,6 +85,15 @@ class Ui_Form(object):
 
         self.balance_edit = QLineEdit(self.tab_1)
         self.balance_edit.setObjectName(u"balance_edit")
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.balance_edit.sizePolicy().hasHeightForWidth())
+        self.balance_edit.setSizePolicy(sizePolicy)
+        self.balance_edit.setMinimumSize(QSize(0, 30))
+        font1 = QFont()
+        font1.setPointSize(18)
+        self.balance_edit.setFont(font1)
 
         self.gridLayout_2.addWidget(self.balance_edit, 2, 0, 1, 2)
 
@@ -69,6 +106,13 @@ class Ui_Form(object):
 
         self.withdraw_button = QPushButton(self.tab_1)
         self.withdraw_button.setObjectName(u"withdraw_button")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Maximum)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.withdraw_button.sizePolicy().hasHeightForWidth())
+        self.withdraw_button.setSizePolicy(sizePolicy1)
+        self.withdraw_button.setMinimumSize(QSize(0, 30))
+        self.withdraw_button.setFont(font1)
 
         self.gridLayout_2.addWidget(self.withdraw_button, 4, 1, 1, 1)
 
@@ -78,6 +122,10 @@ class Ui_Form(object):
 
         self.deposit_button = QPushButton(self.tab_1)
         self.deposit_button.setObjectName(u"deposit_button")
+        sizePolicy1.setHeightForWidth(self.deposit_button.sizePolicy().hasHeightForWidth())
+        self.deposit_button.setSizePolicy(sizePolicy1)
+        self.deposit_button.setMinimumSize(QSize(0, 30))
+        self.deposit_button.setFont(font1)
 
         self.gridLayout_2.addWidget(self.deposit_button, 4, 0, 1, 1)
 
@@ -92,6 +140,15 @@ class Ui_Form(object):
         self.gridLayout_3.setObjectName(u"gridLayout_3")
         self.change_password_button = QPushButton(self.tab_2)
         self.change_password_button.setObjectName(u"change_password_button")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.change_password_button.sizePolicy().hasHeightForWidth())
+        self.change_password_button.setSizePolicy(sizePolicy2)
+        self.change_password_button.setMinimumSize(QSize(150, 30))
+        font2 = QFont()
+        font2.setPointSize(16)
+        self.change_password_button.setFont(font2)
 
         self.gridLayout_3.addWidget(self.change_password_button, 3, 1, 1, 1)
 
@@ -115,16 +172,16 @@ class Ui_Form(object):
         self.gridLayout_3.addWidget(self.label_4, 0, 0, 1, 3)
 
         self.account_username_label = QLabel(self.tab_2)
-        self.account_username_label.setObjectName(u"account_username_edit")
-        font1 = QFont()
-        font1.setPointSize(36)
-        self.account_username_label.setFont(font1)
+        self.account_username_label.setObjectName(u"account_username_label")
+        font3 = QFont()
+        font3.setPointSize(36)
+        self.account_username_label.setFont(font3)
 
         self.gridLayout_3.addWidget(self.account_username_label, 1, 0, 1, 3)
 
         self.account_password_label = QLabel(self.tab_2)
-        self.account_password_label.setObjectName(u"account_password_edit")
-        self.account_password_label.setFont(font1)
+        self.account_password_label.setObjectName(u"account_password_label")
+        self.account_password_label.setFont(font3)
 
         self.gridLayout_3.addWidget(self.account_password_label, 2, 0, 1, 3)
 
@@ -134,9 +191,9 @@ class Ui_Form(object):
 
         self.label = QLabel(Form)
         self.label.setObjectName(u"label")
-        font2 = QFont()
-        font2.setPointSize(64)
-        self.label.setFont(font2)
+        font4 = QFont()
+        font4.setPointSize(64)
+        self.label.setFont(font4)
         self.label.setAlignment(Qt.AlignCenter)
 
         self.gridLayout.addWidget(self.label, 0, 0, 1, 3)
